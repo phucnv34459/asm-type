@@ -1,0 +1,35 @@
+.list{
+  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-right: 25px;
+  margin-left: 30px;
+}
+.product{
+  
+  padding: 10px;
+  border: 1px solid #e1e1e1;
+	border-radius: 6px;
+	box-shadow: 0 0 6px rgb(232, 232, 235);
+	margin: 0 12px 24px;
+}
+.h1{
+  text-align: center;
+  margin-top: 35px;
+  margin-bottom: 20px;
+}
+.img{
+  transition:transform 0.3s;
+}
+.img:hover{
+  transform: scale(1.1);
+}
+.card{
+  button:hover{
+    background-color: red;
+  }
+ 
+}
+
+
