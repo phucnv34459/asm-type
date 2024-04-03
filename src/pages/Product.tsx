@@ -3,9 +3,13 @@ import { Link } from 'react-router-dom'
 import { TProduct } from '~/interfaces/Product'
 
 type Props = {
-  products:TProduct[]
-}
-const Product: React.FC<Props> = ({ products, onRemove}) => {
+  products:TProduct[];
+  onDel: (id:number | undefined) => void;
+};
+const Product = ({ products,onDel}:Props) => {
+  const handleDelete = (id:number | undefined) =>{
+    onDel(id);
+  }
   return (
     <div>
       <h1>Quản lí sản phẩm</h1>
@@ -37,8 +41,8 @@ const Product: React.FC<Props> = ({ products, onRemove}) => {
                 <td>{item.stock}</td>
                 <td>{item.description}</td>
                 <td>
-                  <button className='btn btn-primary'>Cật nhập</button>
-                  <button className='btn btn-danger' onClick={() => onRemove(item.id)}>
+                  <Link to={`/admin/products/${item.id}/edit`} className='btn btn-primary' >Cật nhập</Link>
+                  <button className='btn btn-danger' onClick={() => handleDelete(Number(item.id))}>
                     Xóa
                   </button>
                 </td>
