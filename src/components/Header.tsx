@@ -30,12 +30,12 @@ const Header: React.FC = () => {
          
           </ul>
           <div className='text-end'>
-            <button type='button' className='btn btn-primary me-2'>
+            <Link to={'/login'} type='button' className='btn btn-primary me-2'>
               Login
-            </button>
-            <button type='button' className='btn btn-warning'>
+            </Link>
+            <Link to={'/register'} type='button' className='btn btn-warning'>
               Sign-up
-            </button>
+            </Link>
           </div>
         </div>
       </div>

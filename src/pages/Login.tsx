@@ -1,34 +1,28 @@
-import React from 'react'
-import Joi from 'joi';
-import { TUser } from '~/interfaces/User';
+
+import axios from 'axios';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { joiResolver } from '@hookform/resolvers/joi';
-import instance from '~/apis';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-const userSchema = Joi.object({
-    email:Joi.string().email({tlds:false}).required(),
-    password:Joi.string().required().min(6),
-})
+
 const Login = () => {
     const navigate = useNavigate();
-    const {register, handleSubmit, formState:{errors},} = useForm<TUser>({resolver: joiResolver(userSchema)});
-    const onSubmit = (user:TUser) =>{
-       (async()=>{
-         const {data} = await instance.post('/login', user) ;
-
-         if(data.accessToken){
-            localStorage.setItem("accessToken", data.accessToken);
-           window.confirm("login susses") && 
-           navigate("/admin");
-         }
-       })();
+    const {register, handleSubmit, formState:{errors},} = useForm();
+    useEffect(()=>{
+      (async()=>{
+         const {user} = await axios.get(`http://localhost:3000/users`,user);
+      })();
+    },[]);
+    const onSubmit = async (data:any) =>{
+      localStorage.setItem('user' , JSON.stringify(data));
+      toast.success("Bạn đã đăng nhập thành công");
+     navigate("/admin")
     }
   return (
     <div><form onSubmit={handleSubmit(onSubmit)}>
-    <h1>Login</h1>
-    <div className="form-group">
+    <h1 style={{textAlign:"center"}}>Login</h1>
+    <div className="form-group mx-5">
       <label htmlFor="title">email</label>
       <input
         type="email"
@@ -43,7 +37,7 @@ const Login = () => {
         <div className="text-danger">{errors.email.message}</div>
       )}
     </div>
-    <div className="form-group">
+    <div className="form-group mx-5">
       <label htmlFor="">password</label>
       <input
         type="password"
@@ -60,7 +54,7 @@ const Login = () => {
       )}
     </div>
    
-    <button className="btn btn-primary w-100">Submit</button>
+    <button style={{marginLeft:"45px"}} className="btn btn-primary mt-3">Submit</button>
   </form></div>
   )
 }

@@ -1,28 +1,22 @@
-import React from 'react'
-import Joi from 'joi';
-import { TUser } from '~/interfaces/User';
+
+import axios from 'axios';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { joiResolver } from '@hookform/resolvers/joi';
-import instance from '~/apis';
 import { useNavigate } from 'react-router-dom';
 
 
-const userSchema = Joi.object({
-    email:Joi.string().email({tlds:false}).required(),
-    password:Joi.string().required().min(6),
-})
 const Register = () => {
     const navigate = useNavigate();
-    const {register, handleSubmit, formState:{errors},} = useForm<TUser>({resolver: joiResolver(userSchema)});
-    const onSubmit = (user:TUser) =>{
-       (async()=>{
-         const {data} = await instance.post('/register', user) ;
-
-         if(data.accessToken){
-           window.confirm("register susses") && 
-           navigate("/login");
-         }
-       })();
+    const {register, handleSubmit, formState:{errors},} = useForm();
+    useEffect(()=>{
+      (async()=>{
+         const {user} = await axios.post(`http://localhost:3000/users`,user);
+      })();
+    },[])
+    const onSubmit = async (data:any) =>{
+     console.log(data);
+     window.confirm('Bạn đã đăng ký thành công');
+     navigate("/login")
     }
   return (
     <div><form onSubmit={handleSubmit(onSubmit)}>
